@@ -228,8 +228,8 @@ nav .wrap{
 #pCanvas{position:absolute;inset:0;z-index:1;pointer-events:none;opacity:.5}
 
 .hero .wrap{
-  display:grid;grid-template-columns:1.1fr .9fr;gap:var(--s6);
-  align-items:center;position:relative;z-index:2;
+  display:flex;flex-direction:column;align-items:center;text-align:center;
+  position:relative;z-index:2;gap:var(--s6);
 }
 .hero-left{}
 .hero-eyebrow{margin-bottom:var(--s4);opacity:0;animation:fadeUp .7s .1s var(--ease) forwards}
@@ -328,8 +328,8 @@ nav .wrap{
 }
 .works-top-right{text-align:right;display:flex;flex-direction:column;align-items:flex-end;gap:var(--s3)}
 .works-count{font-size:80px;font-weight:700;font-family:var(--sans);color:transparent;-webkit-text-stroke:1px var(--border);letter-spacing:-.04em;line-height:1;user-select:none}
-.works-grid{display:grid;grid-template-columns:1.35fr 1fr;gap:var(--s3)}
-.works-col{display:flex;flex-direction:column;gap:var(--s3)}
+.works-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:var(--s4)}
+.works-col{display:contents}
 .work-card{
   border-radius:14px;overflow:hidden;background:var(--off);
   border:1px solid var(--border);position:relative;
@@ -603,8 +603,44 @@ footer{border-top:1px solid var(--border);padding:var(--s6) 0 var(--s5)}
 .reveal.vis{opacity:1;transform:translateY(0)}
 .d1{transition-delay:.08s}.d2{transition-delay:.16s}.d3{transition-delay:.24s}.d4{transition-delay:.32s}
 
+/* ── HERO CENTERED LAYOUT ──────────────────────────────────────── */
+.hero-text{
+  display:flex;flex-direction:column;align-items:center;
+  max-width:760px;width:100%;
+}
+.hero-text .body-lg{ text-align:center; margin:0 auto; }
+.hero-text .hero-ctas{ justify-content:center; }
+.hero-text .hero-stat{ justify-content:center; border-top:1px solid var(--border); padding-top:var(--s5); margin-top:var(--s5); width:100%; }
+.hero-video-wrap{
+  width:100%;max-width:1000px;
+}
+.hero-video-wrap .reel-frame{ aspect-ratio:16/9; }
+.reel-overlay{
+  position:absolute;inset:0;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;gap:var(--s2);
+  background:rgba(4,4,10,.28);z-index:2;
+}
+.reel-btn:hover .reel-overlay .play-ring{ transform:scale(1.08); box-shadow:0 0 60px var(--glow); }
+/* remove old hero-right/left */
+.hero-right,.hero-left{ all:unset; }
 
+/* ── WORKS NUMBERED GRID ───────────────────────────────────────── */
+.work-num{
+  font-family:var(--mono);font-size:10px;letter-spacing:.14em;
+  color:var(--muted);flex-shrink:0;
+}
+.work-meta{
+  display:flex;align-items:center;gap:var(--s2);
+  padding:var(--s3) var(--s4);border-top:1px solid var(--border);
+}
+.work-title{ flex:1; font-family:var(--sans);font-size:12px;font-weight:600;color:var(--white); }
+.work-tag{ font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);padding:4px 10px;border:1px solid var(--border);border-radius:100px;flex-shrink:0; }
+@media(max-width:640px){
+  .works-grid{ grid-template-columns:1fr; }
+  .hero-video-wrap{ max-width:100%; }
+}
 </style>
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 </head>
 <body>
 <a href="#main" class="skip-link">Skip to content</a>
@@ -618,7 +654,7 @@ footer{border-top:1px solid var(--border);padding:var(--s6) 0 var(--s5)}
   <div class="wrap">
     <a href="#home" class="nav-logo" aria-label="Unfiltered Motion">
       <span class="nav-logo-mark">
-        <img src="/assets/logo.webp" alt="Unfiltered Motion" width="34" height="34" loading="eager">
+        <img src="data:image/webp;base64,UklGRr4FAABXRUJQVlA4ILIFAABwHgCdASqAAIAAPj0ejUSiIaEjopZqCHAHiWUAx2SA1gnEEdQq/lXe++Z79ivKA91f+R3430AP2V62soKv+k9WbSZmvDMRe1HT/ltnX5dYX5GmEAnIPdeqFOA7118F2lmE3UhZEuywCy7/4ST7v1AaspkuBN6VEfHEoQEVfFwbs+FycJE4Jwo1Kj9vnf5pw6VvjJOWmgP917m9eamI65HVOrSXrmVYvTN9ycuyGLWXp5qvsdh7nt4r/5hYxphFEEc4afIiFRSTml4idMuvMruRs/gt5LL4SNO/WWqJE++a+tHb7nhKn4T5p+W7VWYkJlIJ2a8NRv9kuyVxkAAA/v4/Uu5rc2cU3U3bcRjqogtcLcDEDN1celyvyYwskp8iCRws3s+Ff/5NQNK7rMaQocZA39XcDSS6QuzqTw/IKaMcbWD9xF+2UDnEL/+ZRDuHVwWQkcIVVGWpyFfU2D5veKzNggqo2EMREz+7v+l48OvOnWS9xvSVo/dkKG/7AJkxl8xRgJ0nHjjtgAQH9+xhQkx7OoHZUtSSLO2IhTNYYDapcPJxBJcDmodFTTiXhtsvhlJThUpEBTA2cqM8D+0yz0aYSA1nDpIWFJRV5sRohF4CsylICxB07nMPZoSsjT4X2uMLQvSNYXr5hmN2fW9oSH6/+i2afnIddXLHl5nHf3uTjvb9B20iUaP5npWlNnckjgWhp3xXsLEfFz/4lgI8lh2Oy9THZ9dLNbHCzhrWyeu3fcBp3rU0Wm1olO3DIDrMMjo/Tc+a695W5BvRT2dlc+j+KXf/qoc4ADz4P7faqDcVRUud6YkHXpLp3ypac0+CTfkIsRLD44rrXUwsPzIiEM3Itt/ZbaGZTFUyDrM/LLcRw/sNiyxQJahmegSqhh0uyFbyhQKYSiJabdwycPc1iN7OZD0TU+nmUNYM1lqyx9P+f2/M0vqSsXEyamfsIFVRPbLLOcaPzin+kkheJ3btHDImI5wCBT+7KVi2CfK3SnJxMh+cUt56S3EOwuVKCgBkYYsGc3s/O/++fv/7T8/1ejq8ixNlievZedf+XCGzH8JgYEf+fFXL+4FRaYKN3+eu6+hWBffUafUrKE4q1JOCTZ3//Xafz/1ur43oSbST9P/bqjwlUBYYHCH3K0f2ix+/Qc9f/UN73S9RTeSd/vNru41nRDrF8AfFb33ZwjbLby6omeUB3falYHjvlYJvO9A/u/JDXnzWoFz/4yAPwUqQE13J9DC7tRZLwAaSGHWaNU4zaCqNHM3hb/hWgyiJCmDmt+vuQ+bzme0P80JoblrHOsfczHpLTSZmvThjAOJDmUCOjhj8kEDIV6kO4BIZVnHcfKI9z4XZM9XAqpo+6FWyI7wg+NRU+A81fbPtVfoPLNg/Z7kUdy1H1if3KB9Tv4mIgqqTClWdUO8G7gPnqUyIt4VV7obi3plVTFbpzYJW4UZNN6iylrDX75kvc9UUmPrWkk9TWf2drn0sO9PbZ9XL05onW3DCccefZf8TNF18+/ff5/Yd4r3/4q6f8vn7GHe1oUFWXVvUynStGY1+D7LxtyUoKjazzvwzDQ7/o3H4r1HpHmOTgcNuP239WTGeX1DZaXJ7Ily0Ww9p2zvsKUBQcpmalnlM7Lc+YkP1k+O4r/qlJgGHUI+93FPsLPOqvPaKlR3IOqIYSG6Yn6A+rN5FWNhQrjnM3/spWpn36guf6dymSpOC68Moik62viJmxAgsXbeNLznwdhxgBbgiksbcRjZ3f0fb/NepA66FxPVsSVqs1eDbLfOvX+w02+KlplNm9dP0w1URtGShob9guUX7laxi5NeJVZR7BLPlqKTneX4S02euqatdL8LR9adi5MW7miPPysH07VWxLJVGO/ZODrgXFZQE83xXQSM+nfAVEYupqUJPow7q4Jtpi+0IOSSwPhg3+j/br49+enOI5TcKSwAAAAA=" alt="Unfiltered Motion" width="34" height="34" loading="eager">
       </span>
       <span class="nav-logo-text">Unfiltered Motion</span>
     </a>
@@ -632,11 +668,12 @@ footer{border-top:1px solid var(--border);padding:var(--s6) 0 var(--s5)}
 
 <!-- HERO -->
 <section class="hero" id="home">
+  <video class="hero-video-bg" autoplay loop muted playsinline preload="auto" aria-hidden="true"><source src="logo_animation.mp4" type="video/mp4"></video>
   <div class="hero-glow-1" aria-hidden="true"></div>
   <div class="hero-glow-2" aria-hidden="true"></div>
   <canvas id="pCanvas" aria-hidden="true"></canvas>
   <div class="wrap">
-    <div class="hero-left">
+    <div class="hero-text">
       <div class="eyebrow hero-eyebrow">Motion Design Studio</div>
       <h1 class="display display-hero hero-headline">
         Motion that<br>moves <em>revenue.</em>
@@ -663,23 +700,24 @@ footer{border-top:1px solid var(--border);padding:var(--s6) 0 var(--s5)}
         </div>
       </div>
     </div>
-    <div class="hero-right">
-      <div class="reel-label">Showreel</div>
+    <div class="hero-video-wrap">
       <div class="reel-frame" id="heroReel">
         <button class="reel-btn" type="button"
-          data-embed="https://www.youtube-nocookie.com/embed/wv4isuuv9dM"
+          data-embed="https://www.youtube-nocookie.com/embed/p-jL_6rZneE"
           aria-label="Play showreel">
           <img class="reel-poster"
-            src="https://img.youtube.com/vi/wv4isuuv9dM/maxresdefault.jpg"
+            src="https://img.youtube.com/vi/p-jL_6rZneE/maxresdefault.jpg"
             alt="" loading="lazy"
-            onerror="this.src='https://img.youtube.com/vi/wv4isuuv9dM/hqdefault.jpg'">
-          <div class="play-ring" aria-hidden="true">
-            <svg width="18" height="20" viewBox="0 0 18 20"><path d="M1 1l16 9-16 9V1z"/></svg>
+            onerror="this.src='https://img.youtube.com/vi/p-jL_6rZneE/hqdefault.jpg'">
+          <div class="reel-overlay" aria-hidden="true">
+            <div class="play-ring">
+              <svg width="18" height="20" viewBox="0 0 18 20"><path d="M1 1l16 9-16 9V1z" fill="white"/></svg>
+            </div>
+            <span class="reel-play-label">Play showreel</span>
           </div>
-          <span class="reel-play-label">Play showreel</span>
         </button>
       </div>
-    </div>
+    </div>    </div>
   </div>
   <div class="scroll-hint" aria-hidden="true"><div class="scroll-line"></div>Scroll</div>
 </section>
@@ -713,7 +751,7 @@ footer{border-top:1px solid var(--border);padding:var(--s6) 0 var(--s5)}
         <h2 class="display display-lg">Products don't<br>sell. <em>Stories do.</em></h2>
       </div>
       <div class="works-top-right">
-        <span class="works-count">03</span>
+        <span class="works-count">04</span>
         <a href="#contact" class="btn btn-text">Start a project <span class="arrow">→</span></a>
       </div>
     </div>
@@ -786,7 +824,7 @@ footer{border-top:1px solid var(--border);padding:var(--s6) 0 var(--s5)}
             <a href="https://www.instagram.com/unfiltered_motion09/" target="_blank" rel="noopener" class="social-a" aria-label="Instagram">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
             </a>
-            <a href="https://x.com/home" target="_blank" rel="noopener" class="social-a" aria-label="X">
+            <a href="https://x.com/Unfiltered_93" target="_blank" rel="noopener" class="social-a" aria-label="X">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.737-8.835L1.254 2.25H8.08l4.253 5.622 5.911-5.622zm-1.161 17.52h1.833L7.084 4.126H5.117L17.083 19.77z"/></svg>
             </a>
           </div>
@@ -875,7 +913,7 @@ footer{border-top:1px solid var(--border);padding:var(--s6) 0 var(--s5)}
     <div class="foot-top">
       <div class="foot-brand">
         <span class="nav-logo-mark">
-          <img src="/assets/logo.webp" alt="" width="32" height="32" loading="lazy">
+          <img src="data:image/webp;base64,UklGRr4FAABXRUJQVlA4ILIFAABwHgCdASqAAIAAPj0ejUSiIaEjopZqCHAHiWUAx2SA1gnEEdQq/lXe++Z79ivKA91f+R3430AP2V62soKv+k9WbSZmvDMRe1HT/ltnX5dYX5GmEAnIPdeqFOA7118F2lmE3UhZEuywCy7/4ST7v1AaspkuBN6VEfHEoQEVfFwbs+FycJE4Jwo1Kj9vnf5pw6VvjJOWmgP917m9eamI65HVOrSXrmVYvTN9ycuyGLWXp5qvsdh7nt4r/5hYxphFEEc4afIiFRSTml4idMuvMruRs/gt5LL4SNO/WWqJE++a+tHb7nhKn4T5p+W7VWYkJlIJ2a8NRv9kuyVxkAAA/v4/Uu5rc2cU3U3bcRjqogtcLcDEDN1celyvyYwskp8iCRws3s+Ff/5NQNK7rMaQocZA39XcDSS6QuzqTw/IKaMcbWD9xF+2UDnEL/+ZRDuHVwWQkcIVVGWpyFfU2D5veKzNggqo2EMREz+7v+l48OvOnWS9xvSVo/dkKG/7AJkxl8xRgJ0nHjjtgAQH9+xhQkx7OoHZUtSSLO2IhTNYYDapcPJxBJcDmodFTTiXhtsvhlJThUpEBTA2cqM8D+0yz0aYSA1nDpIWFJRV5sRohF4CsylICxB07nMPZoSsjT4X2uMLQvSNYXr5hmN2fW9oSH6/+i2afnIddXLHl5nHf3uTjvb9B20iUaP5npWlNnckjgWhp3xXsLEfFz/4lgI8lh2Oy9THZ9dLNbHCzhrWyeu3fcBp3rU0Wm1olO3DIDrMMjo/Tc+a695W5BvRT2dlc+j+KXf/qoc4ADz4P7faqDcVRUud6YkHXpLp3ypac0+CTfkIsRLD44rrXUwsPzIiEM3Itt/ZbaGZTFUyDrM/LLcRw/sNiyxQJahmegSqhh0uyFbyhQKYSiJabdwycPc1iN7OZD0TU+nmUNYM1lqyx9P+f2/M0vqSsXEyamfsIFVRPbLLOcaPzin+kkheJ3btHDImI5wCBT+7KVi2CfK3SnJxMh+cUt56S3EOwuVKCgBkYYsGc3s/O/++fv/7T8/1ejq8ixNlievZedf+XCGzH8JgYEf+fFXL+4FRaYKN3+eu6+hWBffUafUrKE4q1JOCTZ3//Xafz/1ur43oSbST9P/bqjwlUBYYHCH3K0f2ix+/Qc9f/UN73S9RTeSd/vNru41nRDrF8AfFb33ZwjbLby6omeUB3falYHjvlYJvO9A/u/JDXnzWoFz/4yAPwUqQE13J9DC7tRZLwAaSGHWaNU4zaCqNHM3hb/hWgyiJCmDmt+vuQ+bzme0P80JoblrHOsfczHpLTSZmvThjAOJDmUCOjhj8kEDIV6kO4BIZVnHcfKI9z4XZM9XAqpo+6FWyI7wg+NRU+A81fbPtVfoPLNg/Z7kUdy1H1if3KB9Tv4mIgqqTClWdUO8G7gPnqUyIt4VV7obi3plVTFbpzYJW4UZNN6iylrDX75kvc9UUmPrWkk9TWf2drn0sO9PbZ9XL05onW3DCccefZf8TNF18+/ff5/Yd4r3/4q6f8vn7GHe1oUFWXVvUynStGY1+D7LxtyUoKjazzvwzDQ7/o3H4r1HpHmOTgcNuP239WTGeX1DZaXJ7Ily0Ww9p2zvsKUBQcpmalnlM7Lc+YkP1k+O4r/qlJgGHUI+93FPsLPOqvPaKlR3IOqIYSG6Yn6A+rN5FWNhQrjnM3/spWpn36guf6dymSpOC68Moik62viJmxAgsXbeNLznwdhxgBbgiksbcRjZ3f0fb/NepA66FxPVsSVqs1eDbLfOvX+w02+KlplNm9dP0w1URtGShob9guUX7laxi5NeJVZR7BLPlqKTneX4S02euqatdL8LR9adi5MW7miPPysH07VWxLJVGO/ZODrgXFZQE83xXQSM+nfAVEYupqUJPow7q4Jtpi+0IOSSwPhg3+j/br49+enOI5TcKSwAAAAA=" alt="" width="32" height="32" loading="lazy">
         </span>
         <span class="foot-tagline">Let's work.</span>
       </div>
@@ -888,6 +926,10 @@ footer{border-top:1px solid var(--border);padding:var(--s6) 0 var(--s5)}
 </footer>
 
 <script>
+// ── EmailJS init ──────────────────────────────────────────────────────────────
+// EmailJS public key set ✅
+emailjs.init('GmCE2JszV9Tf7wsEe');
+
 (() => {
 'use strict';
 
@@ -959,18 +1001,17 @@ document.querySelectorAll('[data-embed]').forEach(btn=>{
 
 /* ── WORKS GRID ── */
 const WORKS=[
-  {title:'SectionCut — Architecture Channel',tag:'YouTube',embedUrl:'https://www.youtube-nocookie.com/embed/wv4isuuv9dM',poster:'https://img.youtube.com/vi/wv4isuuv9dM/maxresdefault.jpg',featured:true},
-  {title:'SaaS App Launch Reel',tag:'Motion Design',embedUrl:'https://www.youtube-nocookie.com/embed/LtXH4UutzBw',poster:'https://img.youtube.com/vi/LtXH4UutzBw/maxresdefault.jpg'},
-  {title:'Short-Form Vertical Edit',tag:'Social Content',embedUrl:'https://www.youtube-nocookie.com/embed/aJBWjsXy2xw',poster:'https://img.youtube.com/vi/aJBWjsXy2xw/maxresdefault.jpg'}
+  {num:'01',title:'SectionCut — Architecture Channel',tag:'Launch Video',embedUrl:'https://www.youtube-nocookie.com/embed/wv4isuuv9dM',poster:'https://img.youtube.com/vi/wv4isuuv9dM/maxresdefault.jpg'},
+  {num:'02',title:'SaaS App Launch Reel',tag:'Motion Design',embedUrl:'https://www.youtube-nocookie.com/embed/LtXH4UutzBw',poster:'https://img.youtube.com/vi/LtXH4UutzBw/maxresdefault.jpg'},
+  {num:'03',title:'Product Promo Reel',tag:'Motion Design',embedUrl:'https://www.youtube-nocookie.com/embed/olAzK7na3lU',poster:'https://img.youtube.com/vi/olAzK7na3lU/maxresdefault.jpg'},
+  {num:'04',title:'Brand Story Edit',tag:'Brand Film',embedUrl:'https://www.youtube-nocookie.com/embed/aJBWjsXy2xw',poster:'https://img.youtube.com/vi/aJBWjsXy2xw/maxresdefault.jpg'}
 ];
 const wg=document.getElementById('worksGrid');
 if(wg){
   // Two columns: featured left (tall), two stacked right
-  const colL=document.createElement('div'); colL.className='works-col';
-  const colR=document.createElement('div'); colR.className='works-col';
   WORKS.forEach((w,i)=>{
     const card=document.createElement('div'); card.className='work-card reveal'+(i>0?' d'+i:'');
-    const vid=document.createElement('div'); vid.className='work-video'+(w.featured?' tall':'');
+    const vid=document.createElement('div'); vid.className='work-video';
     const btn=document.createElement('button'); btn.type='button'; btn.setAttribute('aria-label','Play: '+w.title);
     btn.style.cssText='position:absolute;inset:0;padding:0;border:none;background:transparent;cursor:pointer;';
     if(w.poster){
@@ -983,15 +1024,24 @@ if(wg){
     const pl=document.createElement('div'); pl.className='work-play'; pl.setAttribute('aria-hidden','true');
     pl.innerHTML='<svg width="16" height="18" viewBox="0 0 18 20"><path d="M1 1l16 9-16 9V1z" fill="white"/></svg>';
     ov.appendChild(pl); btn.appendChild(ov);
-    btn.addEventListener('click',()=>loadVid(vid, w.embedUrl));
+    btn.addEventListener('click',()=>{
+      if(w.isShort){
+        const ifr=document.createElement('iframe');
+        ifr.src=`https://www.youtube-nocookie.com/shorts/${w.embedUrl.split('/embed/')[1]?.split('?')[0]||w.embedUrl}?autoplay=1&rel=0`;
+        ifr.title=w.title;ifr.allowFullscreen=true;ifr.loading='lazy';
+        ifr.allow='autoplay;fullscreen;picture-in-picture';
+        vid.innerHTML='';vid.appendChild(ifr);
+      } else {
+        loadVid(vid, w.embedUrl);
+      }
+    });
     vid.appendChild(btn);
     const meta=document.createElement('div'); meta.className='work-meta';
-    meta.innerHTML=`<span class="work-title">${w.title}</span><span class="work-tag">${w.tag}</span>`;
+    meta.innerHTML=`<span class="work-num">${w.num||''}</span><span class="work-title">${w.title}</span><span class="work-tag">${w.tag}</span>`;
     card.appendChild(vid); card.appendChild(meta);
-    if(w.featured) colL.appendChild(card); else colR.appendChild(card);
+    wg.appendChild(card);
     ro.observe(card);
   });
-  wg.appendChild(colL); wg.appendChild(colR);
 }
 
 /* ── SHOWCASE ── */
@@ -1007,17 +1057,19 @@ if(sg){
     const vid=document.createElement('div'); vid.className='showcase-vid';
     vid.setAttribute('role','button'); vid.setAttribute('tabindex','0'); vid.setAttribute('aria-label','Play: '+s.title);
     const thumb=document.createElement('img');
-    thumb.src=`https://img.youtube.com/vi/${s.videoId}/maxresdefault.jpg`; thumb.alt=''; thumb.loading='lazy';
-    thumb.onerror=()=>{thumb.src=`https://img.youtube.com/vi/${s.videoId}/hqdefault.jpg`};
+    thumb.src=`https://img.youtube.com/vi/${s.videoId}/hqdefault.jpg`; thumb.alt=''; thumb.loading='lazy';
+    thumb.onerror=()=>{thumb.style.display='none'};
     const ov=document.createElement('div'); ov.className='sv-overlay';
     const pb=document.createElement('div'); pb.className='play-ring'; pb.setAttribute('aria-hidden','true');
     pb.innerHTML='<svg width="16" height="18" viewBox="0 0 18 20"><path d="M1 1l16 9-16 9V1z" fill="white"/></svg>';
     ov.appendChild(pb); vid.appendChild(thumb); vid.appendChild(ov);
     const play=()=>{
       const ifr=document.createElement('iframe');
-      const path=s.isShort?`shorts/${s.videoId}`:`embed/${s.videoId}`;
-      ifr.src=`https://www.youtube-nocookie.com/${path}?autoplay=1&rel=0`;
-      ifr.title=s.title; ifr.allowFullscreen=true; ifr.allow='autoplay;fullscreen';
+      // Shorts must use /embed/ path — /shorts/ path doesn't support autoplay in iframe
+      ifr.src=`https://www.youtube-nocookie.com/embed/${s.videoId}?autoplay=1&rel=0&loop=1&playlist=${s.videoId}`;
+      ifr.title=s.title; ifr.allowFullscreen=true;
+      ifr.allow='autoplay;fullscreen;picture-in-picture;encrypted-media';
+      ifr.setAttribute('referrerpolicy','strict-origin-when-cross-origin');
       vid.innerHTML=''; vid.appendChild(ifr);
     };
     vid.addEventListener('click',play);
@@ -1092,22 +1144,33 @@ if(form) form.addEventListener('submit',async e=>{
   if(form.querySelector('[name="_honey"]').value) return;
   let ok=true; Object.keys(FIELDS).forEach(id=>{if(!vf(id))ok=false});
   if(!ok){const fi=form.querySelector('[aria-invalid="true"]');if(fi)fi.focus();return}
+  if(subBtn.disabled) return; // prevent double submit
   subBtn.disabled=true; subBtn.classList.add('loading'); subBtn.textContent='Sending';
   const data={name:document.getElementById('fn').value.trim(),email:document.getElementById('fe').value.trim(),company:document.getElementById('fc').value.trim(),budget:document.getElementById('fb').value,project_type:document.getElementById('ft').value,timeline:document.getElementById('ftl').value,message:document.getElementById('fm').value.trim(),_subject:'New project inquiry — '+document.getElementById('fn').value.trim(),_replyto:document.getElementById('fe').value.trim()};
   try{
-    const FSID='YOUR_FORMSPREE_ID';
-    let sent=false;
-    if(FSID!=='YOUR_FORMSPREE_ID'){
-      const r=await fetch(`https://formspree.io/f/${FSID}`,{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify(data)});
-      sent=r.ok;
-    } else {
-      const sub=encodeURIComponent(data._subject),bod=encodeURIComponent(`Name: ${data.name}\nEmail: ${data.email}\nCompany: ${data.company}\nBudget: ${data.budget}\nType: ${data.project_type}\nTimeline: ${data.timeline}\n\n${data.message}`);
-      window.location.href=`mailto:unfilteredmotion@unfilteredmotion.com?subject=${sub}&body=${bod}`;
-      sent=true;
-    }
-    if(sent){form.style.display='none';succ.classList.add('vis')}
-    else throw new Error();
-  }catch{subBtn.disabled=false;subBtn.classList.remove('loading');subBtn.textContent='Send message';alert('Something went wrong. Email us at unfilteredmotion@unfilteredmotion.com')}
+    // EmailJS — service_9ul4f0u
+    await emailjs.send('service_9ul4f0u', 'template_ze28tqg', {
+      from_name:    data.name,
+      from_email:   data.email,
+      company:      data.company,
+      budget:       data.budget,
+      project_type: data.project_type,
+      timeline:     data.timeline,
+      message:      data.message,
+      reply_to:     data.email,
+    });
+    form.style.display='none';
+    succ.classList.add('vis');
+    const sp=succ.querySelector('p');if(sp)sp.textContent="Thanks! I'll get back to you within 24 hours.";
+  }catch(err){
+    console.error('[EmailJS]', err);
+    subBtn.disabled=false;
+    subBtn.classList.remove('loading');
+    subBtn.textContent='Send message';
+    const errBox=document.getElementById('form-global-error');
+    if(errBox){errBox.textContent='Something went wrong. Please email unfilteredmotion@unfilteredmotion.com directly.';errBox.style.display='block';}
+    else{alert('Something went wrong. Please email unfilteredmotion@unfilteredmotion.com');}
+  }
 });
 
 })();
